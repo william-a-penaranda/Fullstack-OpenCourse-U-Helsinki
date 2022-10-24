@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+
+import personsService from './services/service';
+
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 import SearchFilter from './components/SearchFilter';
@@ -12,27 +15,52 @@ const App = () => {
   const [searchWord, setSearchWord] = useState("");
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log("promise fulfilled");
-        setPersons(response.data);
-      })
+    personsService
+      .getAll()
+      .then(initialPersons => setPersons(initialPersons));
   }, [])
 
 
   const handleNameChange = (event) => setNewName(event.target.value);
   const handleNumberChange = (event) => setNewNumber(event.target.value);
   const handleSearchWordChange = (event) => setSearchWord(event.target.value);
+
   const addNewPerson = (event) => {
     event.preventDefault();
 
-    persons.some(person => person.name === newName)
-    ? window.alert(`${newName} is already added to phonebook`)
-    : setPersons([...persons, { name: newName, number: newNumber}]);
+    const newPerson = {
+      name: newName, 
+      number: newNumber
+    };
     
+    const existingPerson = persons.find(person => person.name == newPerson.name);
+
+    if (!!existingPerson){
+      window.confirm(`${newPerson.name} is already added to phonebook, \
+        replace the old number with a new one?`)
+        ? personsService
+          .modify(existingPerson.id, newPerson)
+          .then(returnedPerson =>
+            setPersons(persons.map(person => 
+              person.id !== returnedPerson.id 
+              ? person 
+              : returnedPerson)))
+        : window.alert(`${newPerson.name} not modified`);
+
+    } else {
+      personsService
+        .create(newPerson)
+        .then(returnedPerson => setPersons(persons.concat(returnedPerson)))
+    }
     setNewName("");
     setNewNumber("");
+  }
+
+  const deletePersonWithId = (id, name) => {
+    window.confirm(`Delete ${name} ?`)
+      ? personsService.deleteId(id)
+        .then(setPersons(persons.filter(person => person.id !== id)))
+      : window.alert(`${name} NOT deleted`);
   }
 
   const filteredPersons = searchWord === ""
@@ -61,7 +89,7 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons persons={filteredPersons} />
+      <Persons persons={filteredPersons} deletePerson={deletePersonWithId}/>
     </div>
   );
 }
