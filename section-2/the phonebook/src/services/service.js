@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const baseUrl = 'http://localhost:3001/persons';
+const baseUrl = '/api/notes';
+// const baseUrl = 'http://localhost:3001/persons';
+// const baseUrl = 'https://thawing-shelf-11355.herokuapp.com/api/persons';
 
 
 const getAll = () => {
