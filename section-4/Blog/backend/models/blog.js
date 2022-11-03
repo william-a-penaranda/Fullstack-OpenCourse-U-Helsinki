@@ -7,8 +7,14 @@ const blogSchema = new mongoose.Schema({
     minLength: 3
   },
   author: String,
-  url: String,
-  likes: Number
+  url: {
+    type: String,
+    required: true,
+  },
+  likes: {
+    type: Number,
+    default: 0,
+  }
 });
 
 
