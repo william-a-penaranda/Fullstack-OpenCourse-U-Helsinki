@@ -1,4 +1,5 @@
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
 const emptyBlogList = [];
 const listWithOneBlog = [
@@ -59,18 +60,38 @@ const listWithManyBlogs = [
     url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
     likes: 2,
     __v: 0
-  }
+  },
+  {
+    id: '6366d50be2b6ff0c5ab34fd4',
+    title: 'mmmlus',
+    author: 'Me2',
+    url: 'this',
+    likes: 1,
+    user: '6366da606e90cc251196f99b',
+    __v: 0
+  },
 ];
+
+const modelUser = {
+  username: 'warevalo',
+  password: 'sekret',
+};
+
 const newBlogEntry = {
   title: 'React is actually better than Angular',
   author: 'William Penaranda',
   url: 'http://www.u.arizona.edu/blogPost.html',
   likes: 100,
-}
+};
 
 const blogsInDb = async () => {
   const blogs = await Blog.find({});
   return blogs.map(blog => blog.toJSON());
+};
+
+const usersInDb = async () => {
+  const users = await User.find({});
+  return users.map(user => user.toJSON());
 };
 
 module.exports = {
@@ -78,5 +99,7 @@ module.exports = {
   listWithOneBlog,
   listWithManyBlogs,
   newBlogEntry,
+  modelUser,
   blogsInDb,
+  usersInDb,
 };
