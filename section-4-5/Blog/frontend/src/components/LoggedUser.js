@@ -10,7 +10,7 @@ const LoggedUser = ({ user, setUser }) => {
     <>
       <h2>user</h2>
       <div>
-        {user.name} logged in
+        {user.name} logged in {' '}
           <button onClick={handleLogout}>logout</button>
       </div>
     </>

@@ -1,36 +1,19 @@
 import { useState } from "react";
-import loginService from "../services/login";
-import blogService from "../services/blogs";
 
-const LoginForm = ({ setUser, setMessage }) => {
+const LoginForm = ({ handleLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    await handleLogin({ username, password });
 
-    try {
-      const user = await loginService.login({
-        username, password
-      });
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      );
+    setUsername('');
+    setPassword('');
+  };
 
-      blogService.setToken(user.token);
-      setUser(user);
-      setUsername('');
-      setPassword('');
-
-    } catch (exception) {
-      setMessage({ value: 'Wrong credentials', error: true });
-      setTimeout(() => {
-        setMessage({ value: null });
-      }, 5000);
-    };
-  }
   return (
-  <form onSubmit={handleLogin}>
+  <form onSubmit={handleSubmit}>
     <h2>Sign in</h2>
     <div>
       username

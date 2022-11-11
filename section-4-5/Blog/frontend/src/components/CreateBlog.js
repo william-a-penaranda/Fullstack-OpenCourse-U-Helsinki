@@ -1,41 +1,23 @@
 import { useState } from "react";
-import blogService from "../services/blogs";
 
-const CreateBlogs = ({ setBlogs, setMessage }) => {
+const CreateBlog = ({ addNote }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    const newBlog = { title, author, url };
+    await addNote(newBlog);
 
-    try {
-      const newBlog = {
-        title, author, url
-      };
-      const returnedBlog = await blogService.create(newBlog);
-      setBlogs((blogs) => blogs.concat(returnedBlog));
-
-      setMessage({ value: `a new blog ${title} by ${author} added`});
-      setTimeout(() => {
-        setMessage({ value: null, error: null });
-      }, 5000);
-
-      setTitle('');
-      setAuthor('');
-      setUrl('');
-      
-      
-    } catch (exception) {
-      setMessage({value: 'all fields are required', error: true});
-      setTimeout(() => {
-        setMessage({ value: null, error: null });
-      }, 5000);
-    };
+    setTitle('');
+    setAuthor('');
+    setUrl('');
   };
 
   return (
-    <>
+    <div>
       <h2>create new</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -67,8 +49,8 @@ const CreateBlogs = ({ setBlogs, setMessage }) => {
         </div>
         <button type="submit">Add blog</button>
       </form>
-    </>
+    </div>
   );
 };
 
-export default CreateBlogs;
+export default CreateBlog;
