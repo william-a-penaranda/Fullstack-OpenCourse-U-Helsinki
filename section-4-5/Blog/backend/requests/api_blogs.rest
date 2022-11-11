@@ -26,3 +26,17 @@ GET http://localhost:3003/wrongURL
 
 DELETE http://localhost:3003/api/blogs/6366c7529a3955f79e965e08
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2MzY2YzBiOTlhMjZlNmJhOWYxMGQ3ZDgiLCJpYXQiOjE2Njc2ODExODUsImV4cCI6MTY2NzY4NDc4NX0.Cc1aFS6-_G7zDJt1dO-cfYf1yziTt9gLgIhl8gaCEHw
+
+###
+
+PUT http://localhost:3003/api/blogs/5a422a851b54a676234d17f7 
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2MzY2ZGE2MDZlOTBjYzI1MTE5NmY5OWIiLCJpYXQiOjE2Njc2ODQ5NzN9.8tMvignOQeqJ_HlT0fTzVFGz14NzL469pW6qN2BdcLE
+
+{
+  "title": "React patterns",
+  "author": "Michael Chan",
+  "url": "https://reactpatterns.com/",
+  "likes": 8,
+  "id": "5a422a851b54a676234d17f7"
+}
